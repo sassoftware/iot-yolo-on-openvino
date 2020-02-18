@@ -1,0 +1,120 @@
+<project name="yoloV2OpenVINO" pubsub="manual" threads="1" heartbeat-interval="1">
+  <metadata>
+    <meta id="studioUploadedBy">dazari</meta>
+    <meta id="studioUploaded">1568193798821</meta>
+    <meta id="studioModifiedBy">dazari</meta>
+    <meta id="studioModified">1568310143299</meta>
+    <meta id="layout">{"cq":{"w_data":{"x":-40,"y":-55},"w_resize":{"x":-40,"y":80},"w_score":{"x":-45,"y":235}}}</meta>
+  </metadata>
+  <mas-modules>
+    <mas-module module="OpenVINOScore" language="python" func-names="score">
+      <code-file><![CDATA[../SAS_YoloV2_OpenVINO_Demo_V2.py]]></code-file>
+    </mas-module>
+  </mas-modules>
+  <contqueries>
+    <contquery name="cq">
+      <windows>
+        <window-source pubsub="true" insert-only="true" index="pi_EMPTY" name="w_data">
+          <schema>
+            <fields>
+              <field name="id" type="int64" key="true"/>
+              <field name="image_in" type="blob"/>
+            </fields>
+          </schema>
+          <connectors>
+            <connector class="uvc" name="uvc_test">
+              <properties>
+                <property name="type"><![CDATA[pub]]></property>
+                <!-- optional properties -->
+                <!--rate of taking pictures (number / sec)-->
+                <property name="frame_rate"><![CDATA[10]]></property>
+                <property name="format_in"><![CDATA[YUYV]]></property>
+                <property name="format_out"><![CDATA[mjpg]]></property>
+                <property name="width"><![CDATA[640]]></property>
+                <property name="height"><![CDATA[480]]></property>
+                <property name="device"><![CDATA[/dev/video0]]></property>
+              </properties>
+            </connector>
+          </connectors>
+        </window-source>
+        <window-calculate algorithm="ImageProcessing" index="pi_EMPTY" name="w_resize">
+          <schema>
+            <fields>
+              <field name="id" type="int64" key="true"/>
+              <field name="image_in" type="blob"/>
+              <field name="_image_" type="blob"/>
+            </fields>
+          </schema>
+          <parameters>
+            <properties>
+              <property name="function"><![CDATA[resize]]></property>
+              <property name="preFlip"><![CDATA[-1000]]></property>
+              <property name="x"><![CDATA[0]]></property>
+              <property name="y"><![CDATA[0]]></property>
+              <property name="width"><![CDATA[416]]></property>
+              <property name="height"><![CDATA[416]]></property>
+              <property name="outputWidth"><![CDATA[0]]></property>
+              <property name="outputHeight"><![CDATA[0]]></property>
+              <property name="alpha"><![CDATA[0.0]]></property>
+              <property name="beta"><![CDATA[0.0]]></property>
+              <property name="delta"><![CDATA[0.0]]></property>
+              <property name="theta"><![CDATA[0.0]]></property>
+              <property name="value"><![CDATA[0.0]]></property>
+              <property name="minValue"><![CDATA[0.0]]></property>
+              <property name="maxValue"><![CDATA[0.0]]></property>
+              <property name="type"><![CDATA[0.0]]></property>
+              <property name="flag1"><![CDATA[0.0]]></property>
+              <property name="flag2"><![CDATA[0.0]]></property>
+              <property name="flag3"><![CDATA[0.0]]></property>
+              <property name="flag4"><![CDATA[0.0]]></property>
+              <property name="flag5"><![CDATA[0.0]]></property>
+            </properties>
+          </parameters>
+          <input-map>
+            <properties>
+              <property name="imageInput"><![CDATA[image_in]]></property>
+            </properties>
+          </input-map>
+          <output-map>
+            <properties>
+              <property name="imageOutput"><![CDATA[_image_]]></property>
+            </properties>
+          </output-map>
+        </window-calculate>
+        <window-calculate index="pi_EMPTY" pubsub="true" name="w_score" algorithm="MAS">
+          <schema>
+            <fields>
+              <field name="id" type="int64" key="true"/>
+              <field name="image_in" type="blob"/>
+              <field name="object_id" type="int64" key="true"/>
+              <field name="nObjects" type="int32"/>
+              <field name="x_box" type="double"/>
+              <field name="y_box" type="double"/>
+              <field name="w_box" type="double"/>
+              <field name="h_box" type="double"/>
+              <field name="classes" type="string"/>
+              <field name="scores" type="double"/>
+            </fields>
+          </schema>
+          <mas-map>
+            <window-map module="OpenVINOScore" function="score" revision="0" source="w_resize"/>
+          </mas-map>
+          <connectors>
+            <connector class="fs" name="conn_Score" active="false">
+              <properties>
+                <property name="type"><![CDATA[sub]]></property>
+                <property name="snapshot"><![CDATA[false]]></property>
+                <property name="fsname"><![CDATA[ScoreOut.csv]]></property>
+                <property name="fstype"><![CDATA[csv]]></property>
+              </properties>
+            </connector>
+          </connectors>
+        </window-calculate>
+      </windows>
+      <edges>
+        <edge source="w_data" target="w_resize" role="data"/>
+        <edge source="w_resize" target="w_score" role="data"/>
+      </edges>
+    </contquery>
+  </contqueries>
+</project>
