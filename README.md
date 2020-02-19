@@ -106,16 +106,16 @@ The folder structure should then look like the following one:
 
 ```
 +---Face
-|       Convert_Model.bat      	--> Model Conversion script for Windows
-|       Convert_Model.sh		--> Model Conversion script for Linux
+|       Convert_Model.bat       --> Model Conversion script for Windows
+|       Convert_Model.sh        --> Model Conversion script for Linux
 |       Tiny-Yolov2_face.onnx   --> ONNX Model
-|       Tiny-Yolov2_face.py   	--> Tiny YoloV2 metadata needed for scoring
+|       Tiny-Yolov2_face.py     --> Tiny YoloV2 metadata needed for scoring
 |       
 +---Objects
-|       Convert_Model.bat      	--> Model Conversion script for Windows
-|       Convert_Model.sh		--> Model Conversion script for Linux
-|       Tiny-Yolov2.onnx  		--> ONNX Model
-|       Tiny-Yolov2.py   		--> Tiny YoloV2 metadata needed for scoring
+|       Convert_Model.bat       --> Model Conversion script for Windows
+|       Convert_Model.sh        --> Model Conversion script for Linux
+|       Tiny-Yolov2.onnx        --> ONNX Model
+|       Tiny-Yolov2.py          --> Tiny YoloV2 metadata needed for scoring
 ```
 
 To generate the openVINO compatible model simply run from `Face` and `Object` directory the following script:
