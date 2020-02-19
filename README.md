@@ -104,9 +104,9 @@ Once downloaded please extract the *.ONNX files from both archive and move:
 
 The folder structure should then look like the following one:
 
-```batch
+```
 +---Face
-|       Convert_Model.bat      	--> Model Conversion script for Wwindows
+|       Convert_Model.bat      	--> Model Conversion script for Windows
 |       Convert_Model.sh		--> Model Conversion script for Linux
 |       Tiny-Yolov2_face.onnx   --> ONNX Model
 |       Tiny-Yolov2_face.py   	--> Tiny YoloV2 metadata needed for scoring
@@ -182,7 +182,7 @@ This directory structure will easily enable you to extend this tutorial to your 
 
 4. Modify the configuration file with your model metadata:
 
-    ```python
+    ```
     yolov2_onnx_model_path=[YourModelName.onnx]
     yolov2_yoloimgsize=[size of the Yolo input image e.g 416]
     yolov2_detectionThreshold =[Ignore detected image below this score e.g. 0.4 (40%)]
@@ -245,7 +245,7 @@ Within the folder you also found the following scripts to launch the demo *on de
 
 By running the above scripts you will be prompt to select Model and Device:
 
-```bash
+```
 SELECT MODEL:
 
 1. Face Detection
