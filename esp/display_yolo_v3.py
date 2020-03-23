@@ -21,7 +21,8 @@
 #Leverage OpenCV to display results
 #See command line parameters for additional information.
 
-import os, platform, sysimport datetime, time, signal
+import os, platform, sys
+import datetime, time, signal
 
 import numpy as np
 import cv2
